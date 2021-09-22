@@ -16,7 +16,11 @@ class GeoDataImporter
 
     public function storeFileFromUrl(string $url, ?string $name, ?\Closure $progressCallback = null, bool $force = false): bool
     {
-        if ($force || !$this->storage->exists($name)) {
+        if (!($exists = $this->storage->exists($name)) || $force) {
+            if ($exists) {
+                $this->storage->delete($name);
+            }
+
             return $this->storage->storeFromUrl($url, $name, $progressCallback);
         }
 

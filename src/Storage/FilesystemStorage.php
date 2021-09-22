@@ -81,6 +81,18 @@ class FilesystemStorage
     }
 
     /**
+     * Delete file.
+     *
+     * @param string $filePath
+     *
+     * @return bool
+     */
+    public function delete(string $filePath): bool
+    {
+        return  $this->files->delete($this->dirname . ltrim($filePath, DIRECTORY_SEPARATOR));
+    }
+
+    /**
      * @param string $url
      * @param string|null $filePath
      * @param \Closure|null $progressCallback
@@ -156,7 +168,8 @@ class FilesystemStorage
     {
         $process = new Process([
             'wget',
-            '-c',
+            //'-c',
+            '-N',
             '-O',
             $path,
             $url,
