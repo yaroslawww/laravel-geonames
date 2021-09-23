@@ -5,7 +5,7 @@ build:
   nodes:
     tests-with-coverage:
       services:
-        mysql: 8.0
+        mysql: 5.7
       environment:
         php:
           version: 8.0
