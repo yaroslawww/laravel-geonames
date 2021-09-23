@@ -5,11 +5,7 @@ build:
   nodes:
     tests-with-coverage:
       services:
-        mysql:
-          image: mysql:8.0
-          env:
-            MYSQL_DATABASE: lara_geo
-            MYSQL_ALLOW_EMPTY_PASSWORD: yes
+        mysql: 8.0
       environment:
         php:
           version: 8.0
