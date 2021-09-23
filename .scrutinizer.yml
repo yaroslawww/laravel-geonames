@@ -17,6 +17,7 @@ build:
             "xdebug.mode": coverage
       tests:
         override:
+          - command: mysql -h 127.0.0.1 -u root -e 'CREATE DATABASE IF NOT EXISTS lara_geo'
           - command: vendor/bin/phpunit --coverage-clover=coverage-file
             coverage:
               file: coverage-file
