@@ -94,4 +94,39 @@ class DownloadFilesCommandTest extends TestCase
         $this->assertFalse(Str::endsWith(file_get_contents($path . 'WF.zip'), $randContent));
         $this->assertFalse(Str::endsWith(file_get_contents($pathPostalCodes . 'WF.zip'), $randContent));
     }
+
+    /** @test */
+    public function successful_download_and_extract_file()
+    {
+        $path            = rtrim(config('geonames.storage.path'), DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
+        $pathPostalCodes = $path . trim(config('geonames.storage.postal_codes_dir'), DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
+        $this->assertFalse(file_exists($path . 'WF.zip'));
+        $this->assertFalse(file_exists($path . 'UM.zip'));
+        $this->assertFalse(file_exists($pathPostalCodes . 'WF.zip'));
+        $this->assertFalse(file_exists($pathPostalCodes . 'VI.zip'));
+
+        $this->artisan('geonames:download', [
+            'files'    => [
+                'WF.zip',
+                'UM.zip',
+            ],
+            '--postal' => [
+                'WF.zip',
+                'VI.zip',
+            ],
+            '--extract' => true,
+        ])->assertExitCode(0);
+
+        $this->assertTrue(file_exists($path . 'WF.zip'));
+        $this->assertTrue(file_exists($path . 'UM.zip'));
+        $this->assertTrue(file_exists($pathPostalCodes . 'WF.zip'));
+        $this->assertTrue(file_exists($pathPostalCodes . 'VI.zip'));
+
+        $this->assertTrue(file_exists($path . 'WF.txt'));
+        $this->assertTrue(file_exists($path . 'UM.txt'));
+        $this->assertTrue(file_exists($path . 'readme.txt'));
+        $this->assertTrue(file_exists($pathPostalCodes . 'WF.txt'));
+        $this->assertTrue(file_exists($pathPostalCodes . 'VI.txt'));
+        $this->assertTrue(file_exists($pathPostalCodes . 'readme.txt'));
+    }
 }

@@ -15,7 +15,7 @@ class MigrationHelper
         $table->unsignedInteger('id');
         $table->string('name', 200)->nullable()->index();
         $table->string('ascii_name', 200)->nullable()->index();
-        $table->text('alternatenames')->nullable();
+        $table->text('alternate_names')->nullable();
         $table->decimal('lat', 10, 7)->nullable()->index();
         $table->decimal('lng', 10, 7)->nullable()->index();
         $table->char('fclass', 1)->nullable()->index();

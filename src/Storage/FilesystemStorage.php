@@ -100,7 +100,7 @@ class FilesystemStorage
      * @return bool
      * @throws Exception
      */
-    public function storeFromUrl(string $url, ?string $filePath, ?\Closure $progressCallback = null): bool
+    public function storeFromUrl(string $url, ?string $filePath = null, ?\Closure $progressCallback = null): bool
     {
         $this->prepareDirectory();
         if (!$filePath) {
