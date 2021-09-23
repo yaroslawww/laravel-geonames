@@ -9,6 +9,9 @@ build:
           image: mysql:8.0
           env:
             MYSQL_DATABASE: lara_geo
+            MYSQL_ALLOW_EMPTY_PASSWORD: yes
+          ports:
+            - 3306:3306
       environment:
         php:
           version: 8.0
