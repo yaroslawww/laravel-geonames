@@ -10,4 +10,12 @@ return [
         'postal_codes_dir'  => 'postal_codes',
         'download_provider' => 'wget', // 'curl_php'
     ],
+
+    'database' => [
+        'connection' => 'mysql_geo',
+
+        'tables' => [
+            'geonames' => 'geonames',
+        ],
+    ],
 ];

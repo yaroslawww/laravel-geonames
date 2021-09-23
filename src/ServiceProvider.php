@@ -4,6 +4,7 @@ namespace LaraGeoData;
 
 use LaraGeoData\Console\Commands\DownloadFilesCommand;
 use LaraGeoData\Console\Commands\DownloadTruncateCommand;
+use LaraGeoData\Console\Commands\MakeMigrationCommand;
 
 class ServiceProvider extends \Illuminate\Support\ServiceProvider
 {
@@ -18,6 +19,7 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
             $this->commands([
                 DownloadFilesCommand::class,
                 DownloadTruncateCommand::class,
+                MakeMigrationCommand::class,
             ]);
         }
 

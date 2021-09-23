@@ -1,0 +1,25 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+class CreateGeonamesTable/** class_suffix **/ extends Migration {
+
+    public function up() {
+        Schema::connection( config( 'geonames.database.connection' ) )
+              ->create( config( 'geonames.database.tables.geonames' )/** table_suffix **/, function ( Blueprint $table ) {
+                  \LaraGeoData\Database\MigrationHelper::geonamesDefaultColumns( $table );
+
+                  $table->json( 'meta' )->nullable();
+              } );
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down() {
+        Schema::connection( config( 'geonames.database.connection' ) )
+              ->dropIfExists( config( 'geonames.database.tables.geonames' )/** table_suffix **/ );
+    }
+}
