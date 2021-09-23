@@ -2,8 +2,6 @@
 
 namespace LaraGeoData\Tests;
 
-use Illuminate\Support\Facades\DB;
-
 class TestCase extends \Orchestra\Testbench\TestCase
 {
     protected function getPackageProviders($app)
@@ -43,15 +41,6 @@ class TestCase extends \Orchestra\Testbench\TestCase
                 $app['config']->get('database.connections.mysql')
             );
         }
-
-        $connection = $app['config']->get('database.default');
-        $schemaName = $app['config']->get("database.connections.{$connection}.database");
-        $charset    = $app['config']->get("database.connections.{$connection}.charset", 'utf8mb4');
-        $collation  = $app['config']->get("database.connections.{$connection}.collation", 'utf8mb4_unicode_ci');
-
-        $query = "CREATE DATABASE IF NOT EXISTS $schemaName CHARACTER SET $charset COLLATE $collation;";
-        DB::statement($query);
-
 
         // $app['config']->set('geonames.some-key', 'some-val');
     }
