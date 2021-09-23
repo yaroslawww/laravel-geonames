@@ -5,7 +5,10 @@ build:
   nodes:
     tests-with-coverage:
       services:
-        mysql: 8.0
+        mysql:
+          image: mysql:8.0
+        env:
+          MYSQL_DATABASE: lara_geo
       environment:
         php:
           version: 8.0
