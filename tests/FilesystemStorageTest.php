@@ -23,7 +23,6 @@ class FilesystemStorageTest extends TestCase
         $storage = new FilesystemStorage(app('files'), $this->folderPath);
 
         $this->expectException(\ErrorException::class);
-        $this->expectExceptionMessage('mkdir(): File exists');
         $storage->prepareDirectory();
     }
 
