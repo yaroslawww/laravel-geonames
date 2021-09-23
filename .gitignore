@@ -1,3 +1,4 @@
+tests/db_config.php
 build
 composer.lock
 docs

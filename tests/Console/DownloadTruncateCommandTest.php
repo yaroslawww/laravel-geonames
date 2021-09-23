@@ -1,6 +1,8 @@
 <?php
 
-namespace LaraGeoData\Tests;
+namespace LaraGeoData\Tests\Console;
+
+use LaraGeoData\Tests\TestCase;
 
 class DownloadTruncateCommandTest extends TestCase
 {

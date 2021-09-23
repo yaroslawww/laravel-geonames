@@ -1,9 +1,10 @@
 <?php
 
-namespace LaraGeoData\Tests;
+namespace LaraGeoData\Tests\Console;
 
 use Illuminate\Support\Str;
 use LaraGeoData\Facades\GeoDataImporter;
+use LaraGeoData\Tests\TestCase;
 
 class DownloadFilesCommandTest extends TestCase
 {

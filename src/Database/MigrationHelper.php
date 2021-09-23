@@ -12,7 +12,7 @@ class MigrationHelper
      */
     public static function geonamesDefaultColumns(Blueprint $table): void
     {
-        $table->unsignedInteger('id');
+        $table->unsignedInteger('geoname_id');
         $table->string('name', 200)->nullable()->index();
         $table->string('ascii_name', 200)->nullable()->index();
         $table->text('alternate_names')->nullable();
@@ -30,8 +30,8 @@ class MigrationHelper
         $table->integer('elevation')->nullable()->index();
         $table->integer('gtopo30')->nullable()->index();
         $table->string('timezone', 40)->nullable()->index();
-        $table->dateTime('moddate', 40)->nullable()->index();
+        $table->dateTime('moddate')->nullable()->index();
 
-        $table->primary('geonameid');
+        $table->primary('geoname_id');
     }
 }

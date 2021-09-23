@@ -1,7 +1,8 @@
 <?php
 
-namespace LaraGeoData\Tests;
+namespace LaraGeoData\Tests\Console;
 
+use LaraGeoData\Tests\TestCase;
 use SplFileInfo;
 use Symfony\Component\Finder\Finder;
 

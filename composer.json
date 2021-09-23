@@ -36,8 +36,15 @@
         }
     },
     "scripts": {
-        "test": "vendor/bin/phpunit",
-        "test-coverage": "vendor/bin/phpunit --coverage-html coverage",
+        "test-prepare": "find ./vendor/orchestra/testbench-core/laravel/database/migrations  -name \"*.php\" -type f -delete",
+        "test": [
+            "composer test-prepare",
+            "vendor/bin/phpunit --stop-on-failure"
+        ],
+        "test-coverage": [
+            "composer test-prepare",
+            "vendor/bin/phpunit --coverage-html coverage"
+        ],
         "format": "vendor/bin/php-cs-fixer fix --allow-risky=yes",
         "psalm": "vendor/bin/psalm"
     },
