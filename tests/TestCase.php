@@ -40,14 +40,11 @@ class TestCase extends \Orchestra\Testbench\TestCase
         } else {
             $app['config']->set(
                 'database.connections.mysql_geo',
-                array_merge(
-                    $app['config']->get('database.connections.mysql'),
-                    include __DIR__ . '/db_config.php'
-                )
+                $app['config']->get('database.connections.mysql')
             );
         }
 
-        $connection =$app['config']->get('database.default');
+        $connection = $app['config']->get('database.default');
         $schemaName = $app['config']->get("database.connections.{$connection}.database");
         $charset    = $app['config']->get("database.connections.{$connection}.charset", 'utf8mb4');
         $collation  = $app['config']->get("database.connections.{$connection}.collation", 'utf8mb4_unicode_ci');
