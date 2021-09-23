@@ -7,8 +7,8 @@ build:
       services:
         mysql:
           image: mysql:8.0
-        env:
-          MYSQL_DATABASE: lara_geo
+          env:
+            MYSQL_DATABASE: lara_geo
       environment:
         php:
           version: 8.0
