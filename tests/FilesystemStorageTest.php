@@ -33,7 +33,7 @@ class FilesystemStorageTest extends TestCase
         $storage = new FilesystemStorage(app('files'), $this->folderPath);
         $this->assertFalse($storage->exists('timeZones.txt'));
 
-        $storage->storeFromUrl('http://download.geonames.org/export/dump/timeZones.txt', null, function () {
+        $storage->createFromUrl('http://download.geonames.org/export/dump/timeZones.txt', null, function () {
             $this->assertTrue(true);
         });
 
@@ -41,7 +41,7 @@ class FilesystemStorageTest extends TestCase
 
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('See https://php.net/manual/en/function.curl-errno.php');
-        $storage->storeFromUrl('https://not-exists.home/my_file.not');
+        $storage->createFromUrl('https://not-exists.home/my_file.not');
     }
 
     /** @test */
@@ -52,7 +52,7 @@ class FilesystemStorageTest extends TestCase
 
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('Current download provider not supported');
-        $storage->storeFromUrl('http://download.geonames.org/export/dump/timeZones.txt');
+        $storage->createFromUrl('http://download.geonames.org/export/dump/timeZones.txt');
     }
 
     /** @test */

@@ -11,7 +11,7 @@ class DownloadFilesCommandTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        GeoDataImporter::truncateStorage();
+        GeoDataImporter::storageTruncate();
     }
 
     /** @test */

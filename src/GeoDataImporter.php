@@ -3,8 +3,14 @@
 namespace LaraGeoData;
 
 use Illuminate\Contracts\Container\Container;
+use Illuminate\Support\Str;
 use LaraGeoData\Storage\FilesystemStorage;
 
+/**
+ * @method bool storageCreateFromUrl(string $url, ?string $name, ?\Closure $progressCallback = null, bool $force = false)
+ * @method bool storageExtractZipFile(string $file)
+ * @method bool storageTruncate()
+ */
 class GeoDataImporter
 {
     protected FilesystemStorage $storage;
@@ -14,36 +20,32 @@ class GeoDataImporter
         $this->storage = new FilesystemStorage($app['files'], $app['config']->get('geonames.storage.path'));
     }
 
-    public function storeFileFromUrl(string $url, ?string $name, ?\Closure $progressCallback = null, bool $force = false): bool
+    /**
+     * Dynamically forward call.
+     *
+     * @param  string  $method
+     * @param  array  $parameters
+     * @return mixed
+     */
+    public function __call($method, $parameters)
     {
-        if (!($exists = $this->storage->exists($name)) || $force) {
-            if ($exists) {
-                $this->storage->delete($name);
+        if (Str::startsWith($method, 'storage')) {
+            $realMethodName = lcfirst(Str::after($method, 'storage'));
+            if (method_exists($this->storage, $realMethodName)) {
+                return $this->storage->{$realMethodName}(...$parameters);
             }
-
-            return $this->storage->storeFromUrl($url, $name, $progressCallback);
         }
 
-        return false;
+        throw new \BadMethodCallException("Method [{$method}] not exists.");
     }
 
     /**
-     * @param string $file
+     * Get current storage instance.
      *
-     * @return bool
-     * @throws \Exception
+     * @return FilesystemStorage
      */
-    public function extractFile(string $file): bool
+    public function storage(): FilesystemStorage
     {
-        return $this->storage->extractZipFile($file);
-    }
-
-    /**
-     * @return bool
-     * @throws \Exception
-     */
-    public function truncateStorage(): bool
-    {
-        return $this->storage->truncate();
+        return $this->storage;
     }
 }

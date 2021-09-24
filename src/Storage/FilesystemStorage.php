@@ -100,11 +100,20 @@ class FilesystemStorage
      * @return bool
      * @throws Exception
      */
-    public function storeFromUrl(string $url, ?string $filePath = null, ?\Closure $progressCallback = null): bool
+    public function createFromUrl(string $url, ?string $filePath = null, ?\Closure $progressCallback = null, bool $force = false): bool
     {
         $this->prepareDirectory();
         if (!$filePath) {
             $filePath = Str::afterLast($url, DIRECTORY_SEPARATOR);
+        }
+
+        $exists = $this->exists($filePath);
+        if ($exists && !$force) {
+            return false;
+        }
+
+        if ($exists) {
+            $this->delete($filePath);
         }
 
         $path = $this->dirname . ltrim($filePath, DIRECTORY_SEPARATOR);

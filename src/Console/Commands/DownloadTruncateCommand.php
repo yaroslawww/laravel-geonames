@@ -24,7 +24,7 @@ class DownloadTruncateCommand extends Command
 
     public function handle()
     {
-        GeoDataImporter::truncateStorage();
+        GeoDataImporter::storageTruncate();
 
         return 0;
     }

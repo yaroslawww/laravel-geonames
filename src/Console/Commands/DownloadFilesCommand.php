@@ -113,7 +113,7 @@ class DownloadFilesCommand extends Command
         $this->info("Download: {$url} to {$file}");
         $bar = $this->output->createProgressBar(10000);
         $bar->start();
-        $result = GeoDataImporter::storeFileFromUrl(
+        $result = GeoDataImporter::storageCreateFromUrl(
             $url,
             $file,
             function ($resource, $download_size, $downloaded, $upload_size, $uploaded) use ($bar) {
@@ -147,7 +147,7 @@ class DownloadFilesCommand extends Command
         if (!Str::endsWith($file, '.zip')) {
             return;
         }
-        $result = GeoDataImporter::extractFile($file);
+        $result = GeoDataImporter::storageExtractZipFile($file);
         if ($result) {
             $this->info("Extracted file: {$file}");
         } else {
