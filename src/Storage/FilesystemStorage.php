@@ -105,9 +105,27 @@ class FilesystemStorage
     }
 
     /**
+     * Get valid file path.
+     *
+     * @param string|null $filePath
+     * @param string $url
+     *
+     * @return string
+     */
+    protected function validFilePathFromUrl(?string $filePath,  string $url): string
+    {
+        if (!$filePath) {
+            $filePath = Str::afterLast($url, DIRECTORY_SEPARATOR);
+        }
+
+        return (string) $filePath;
+    }
+
+    /**
      * @param string $url
      * @param string|null $filePath
      * @param \Closure|null $progressCallback
+     * @param bool $force
      *
      * @return bool
      * @throws Exception
@@ -115,12 +133,10 @@ class FilesystemStorage
     public function createFromUrl(string $url, ?string $filePath = null, ?\Closure $progressCallback = null, bool $force = false): bool
     {
         $this->prepareDirectory();
-        if (!$filePath) {
-            $filePath = Str::afterLast($url, DIRECTORY_SEPARATOR);
-        }
 
-        $exists = $this->exists($filePath);
-        if ($exists && !$force) {
+        $filePath = $this->validFilePathFromUrl($filePath, $url);
+
+        if (($exists = $this->exists($filePath)) && !$force) {
             return false;
         }
 
@@ -130,23 +146,13 @@ class FilesystemStorage
 
         $path = $this->path($filePath);
 
-        $dir = Str::beforeLast($path, DIRECTORY_SEPARATOR);
-        $this->files->ensureDirectoryExists($dir, 0777, true);
+        $this->files->ensureDirectoryExists(Str::beforeLast($path, DIRECTORY_SEPARATOR), 0777, true);
 
-        switch (config('geonames.storage.download_provider')) {
-            case 'curl_php':
-                $result = $this->downloadViaCurlPhp($url, $path, $progressCallback);
-
-                break;
-            case 'wget':
-                $result = $this->downloadViaWget($url, $path);
-
-                break;
-            default:
-                throw new Exception('Current download provider not supported');
-        }
-
-        return $result;
+        return match (config('geonames.storage.download_provider')) {
+            'curl_php' => $this->downloadViaCurlPhp($url, $path, $progressCallback),
+            'wget'     => $this->downloadViaWget($url, $path),
+            default    => throw new Exception('Current download provider not supported'),
+        };
     }
 
     /**

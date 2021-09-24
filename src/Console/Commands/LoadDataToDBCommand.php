@@ -55,7 +55,7 @@ class LoadDataToDBCommand extends Command
 
     public function handle()
     {
-        $type       = $this->argument('type');
+        $type       = (string) $this->argument('type');
         $methodName = 'import' . Str::ucfirst(Str::camel($type)) . 'Data';
         if (!method_exists($this, $methodName)) {
             throw new \Exception("Import type [{$type}] not supported.");
@@ -149,7 +149,7 @@ class LoadDataToDBCommand extends Command
      */
     protected function getFilePath(string $type): string
     {
-        $filePath = $this->argument('file');
+        $filePath = (string) $this->argument('file');
 
         if (!$filePath) {
             $filePath = match ($type) {
