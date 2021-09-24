@@ -31,6 +31,8 @@ class MigrationHelper
         $table->integer('gtopo30')->nullable()->index();
         $table->string('timezone', 40)->nullable()->index();
         $table->dateTime('moddate')->nullable()->index();
+        $table->unsignedSmallInteger('status')->default(1);
+        $table->nullableTimestamps();
 
         $table->primary('geoname_id');
     }

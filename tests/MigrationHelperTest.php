@@ -14,6 +14,15 @@ class MigrationHelperTest extends TestCase
         $tableMock  = $this->mock(Blueprint::class);
         $columnMock = $this->mock(ColumnDefinition::class);
 
+        $columnMock->shouldReceive('default')
+                   ->times(1)->andReturnSelf();
+        $columnMock->shouldReceive('nullable')
+                   ->times(18)->andReturnSelf();
+        $columnMock->shouldReceive('index')
+                   ->times(17)->andReturnSelf();
+        $tableMock->shouldReceive('primary')
+                  ->once();
+
         $tableMock->shouldReceive('unsignedInteger')
                   ->twice()->andReturn($columnMock);
         $tableMock->shouldReceive('string')
@@ -28,12 +37,13 @@ class MigrationHelperTest extends TestCase
                   ->once()->andReturn($columnMock);
         $tableMock->shouldReceive('char')
                   ->once()->andReturn($columnMock);
-        $columnMock->shouldReceive('nullable')
-                  ->times(18)->andReturnSelf();
-        $columnMock->shouldReceive('index')
-                  ->times(17)->andReturnSelf();
-        $tableMock->shouldReceive('primary')
+        $tableMock->shouldReceive('unsignedSmallInteger')
+                  ->once()->andReturn($columnMock);
+        $tableMock->shouldReceive('nullableTimestamps')
                   ->once();
+
+
+
 
         MigrationHelper::geonamesDefaultColumns($tableMock);
     }

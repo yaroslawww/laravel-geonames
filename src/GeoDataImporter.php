@@ -9,6 +9,7 @@ use LaraGeoData\Storage\FilesystemStorage;
 /**
  * @method bool storageCreateFromUrl(string $url, ?string $name, ?\Closure $progressCallback = null, bool $force = false)
  * @method bool storageExtractZipFile(string $file)
+ * @method bool storagePath(string $file)
  * @method bool storageTruncate()
  */
 class GeoDataImporter

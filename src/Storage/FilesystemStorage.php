@@ -77,7 +77,19 @@ class FilesystemStorage
      */
     public function exists(string $filePath): bool
     {
-        return $this->files->exists($this->dirname . ltrim($filePath, DIRECTORY_SEPARATOR));
+        return $this->files->exists($this->path($filePath));
+    }
+
+    /**
+     * Get absolute file path.
+     *
+     * @param string $filePath
+     *
+     * @return string
+     */
+    public function path(string $filePath): string
+    {
+        return $this->dirname . ltrim($filePath, DIRECTORY_SEPARATOR);
     }
 
     /**
@@ -89,7 +101,7 @@ class FilesystemStorage
      */
     public function delete(string $filePath): bool
     {
-        return  $this->files->delete($this->dirname . ltrim($filePath, DIRECTORY_SEPARATOR));
+        return $this->files->delete($this->path($filePath));
     }
 
     /**
@@ -116,7 +128,7 @@ class FilesystemStorage
             $this->delete($filePath);
         }
 
-        $path = $this->dirname . ltrim($filePath, DIRECTORY_SEPARATOR);
+        $path = $this->path($filePath);
 
         $dir = Str::beforeLast($path, DIRECTORY_SEPARATOR);
         $this->files->ensureDirectoryExists($dir, 0777, true);
@@ -148,7 +160,7 @@ class FilesystemStorage
     public function extractZipFile(string $file): bool
     {
         $zipArchive = new ZipArchive();
-        $filePath   = $this->dirname . trim($file, DIRECTORY_SEPARATOR);
+        $filePath   = $this->path($file);
         if (true === ($openResult = $zipArchive->open($filePath, ZipArchive::RDONLY))) {
             $extractTo     = Str::beforeLast($filePath, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
             $extractResult = $zipArchive->extractTo($extractTo);

@@ -5,13 +5,18 @@ namespace LaraGeoData\Tests\Console;
 use Illuminate\Support\Facades\DB;
 use LaraGeoData\Tests\TestCase;
 
-class ImportDataFromFileTest extends TestCase
+class TablesChecksTest extends TestCase
 {
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->artisan('migrate:fresh')->assertExitCode(0);
+    }
 
     /** @test  */
     public function load_geonames()
     {
-        $this->artisan('migrate:fresh')->assertExitCode(0);
         $tables = collect(DB::select('SHOW TABLES'))->map(function ($val) {
             foreach ($val as $tbl) {
                 return $tbl;

@@ -41,11 +41,11 @@ class MakeMigrationCommandTest extends TestCase
     public function migrate_geonames_with_suffix()
     {
         $finder = ( new Finder() )->files()->name([
-            '*_geonames_table_fr*',
+            '*_geonames_table_blabla*',
         ])->in(database_path('migrations/'));
         $this->assertFalse($finder->hasResults());
 
-        $this->artisan('geonames:make:migration geonames --suffix=fr')
+        $this->artisan('geonames:make:migration geonames --suffix=blabla')
              ->assertExitCode(0);
 
         $this->assertTrue($finder->hasResults());
@@ -56,7 +56,7 @@ class MakeMigrationCommandTest extends TestCase
         /** @var SplFileInfo $file */
         $file    = $iterator->current();
         $content = file_get_contents($file->getRealPath());
-        $this->assertStringContainsString('CreateGeonamesTableFr', $content);
-        $this->assertStringContainsString(". '_fr'", $content);
+        $this->assertStringContainsString('CreateGeonamesTableBlabla', $content);
+        $this->assertStringContainsString(". '_blabla'", $content);
     }
 }

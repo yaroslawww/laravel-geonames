@@ -96,14 +96,14 @@ class DownloadFilesCommand extends Command
 
     protected function downloadGeneralFile(string $file)
     {
-        $baseUrl = rtrim(config('geonames.import_repo'), '/') . '/';
+        $baseUrl = rtrim(config('geonames.import_repos.general'), '/') . '/';
         $url     = $baseUrl . $file;
         $this->downloadFile($file, $url);
     }
 
     protected function downloadPostalCodeFile(string $file)
     {
-        $baseUrl = rtrim(config('geonames.import_postal_code_repo'), '/') . '/';
+        $baseUrl = rtrim(config('geonames.import_repos.zip'), '/') . '/';
         $url     = $baseUrl . $file;
         $this->downloadFile($this->postalCodeFile($file), $url);
     }

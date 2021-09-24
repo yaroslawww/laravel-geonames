@@ -2,6 +2,8 @@
 
 namespace LaraGeoData\Tests;
 
+use PDO;
+
 class TestCase extends \Orchestra\Testbench\TestCase
 {
     protected function getPackageProviders($app)
@@ -41,6 +43,10 @@ class TestCase extends \Orchestra\Testbench\TestCase
                 $app['config']->get('database.connections.mysql')
             );
         }
+
+        $options                                 = $app['config']->get('database.connections.mysql_geo.options') ?? [];
+        $options[ PDO::MYSQL_ATTR_LOCAL_INFILE ] = true;
+        $app['config']->set('database.connections.mysql_geo.options', $options);
 
         // $app['config']->set('geonames.some-key', 'some-val');
     }
