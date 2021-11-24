@@ -26,6 +26,8 @@ class DownloadTruncateCommand extends Command
     {
         GeoDataImporter::storageTruncate();
 
+        $this->info('Directory truncated: ' . GeoDataImporter::storagePath());
+
         return 0;
     }
 }

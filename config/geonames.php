@@ -34,7 +34,7 @@ return [
     |
     */
     'database' => [
-        'connection' => 'mysql_geo',
+        'connection' => env('DB_CONNECTION_GEONAMES', env('DB_CONNECTION', 'mysql_geo')),
 
         'tables' => [
             'geonames' => 'geonames',

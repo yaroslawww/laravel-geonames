@@ -87,7 +87,7 @@ class FilesystemStorage
      *
      * @return string
      */
-    public function path(string $filePath): string
+    public function path(string $filePath = ''): string
     {
         return $this->dirname . ltrim($filePath, DIRECTORY_SEPARATOR);
     }

@@ -13,6 +13,8 @@ Install the package via composer:
 
 ```bash
 composer require yaroslawww/laravel-geonames
+# or
+composer require yaroslawww/laravel-geonames --dev
 ```
 
 Optionally you can publish the config file with:
