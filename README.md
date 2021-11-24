@@ -61,7 +61,7 @@ php artisan geonames:import:file-to-db geonames
 # or
 php artisan geonames:import:file-to-db geonames --suffix=gb
 # or
-php artisan geonames:import:file-to-db geonames path/to/my/fle.csv --suffix=gb
+php artisan geonames:import:file-to-db geonames path/to/my/file.csv --suffix=gb
 ```
 
 ## Credits
