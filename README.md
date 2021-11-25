@@ -39,7 +39,7 @@ Allow import local infile:
 Download dump files:
 
 ```shell
-php artisan geonames:download GB.zip FR.zip --postal=GB.zip --postal=FR.zip --extract --force
+php artisan geonames:download GB.zip FR.zip --postal=GB.zip --postal=GB_full.csv.zip --postal=FR.zip --extract --force
 ```
 
 Clear all downloaded files:
@@ -54,6 +54,8 @@ Make migrations
 php artisan geonames:make:migration geonames
 # or
 php artisan geonames:make:migration geonames --suffix=gb
+
+php artisan geonames:make:migration postalcodes --suffix=gb
 ```
 
 Import data
@@ -64,6 +66,9 @@ php artisan geonames:import:file-to-db geonames
 php artisan geonames:import:file-to-db geonames --suffix=gb
 # or
 php artisan geonames:import:file-to-db geonames path/to/my/file.csv --suffix=gb
+
+php artisan geonames:import:file-to-db postalcodes --suffix=gb
+php artisan geonames:import:file-to-db postalcodes postal_codes/GB_full.txt --suffix=gb
 ```
 
 ## Credits

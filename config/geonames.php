@@ -11,8 +11,8 @@ return [
     |
     */
     'import_repos' => [
-        'general'             => env('GEONAMES_IMPORT_REPO', 'http://download.geonames.org/export/dump'),
-        'zip'                 => env('GEONAMES_IMPORT_POSTAL_CODE_REPO', 'http://download.geonames.org/export/zip'),
+        'general' => env('GEONAMES_IMPORT_REPO', 'http://download.geonames.org/export/dump'),
+        'zip'     => env('GEONAMES_IMPORT_POSTAL_CODE_REPO', 'http://download.geonames.org/export/zip'),
     ],
 
     /*
@@ -21,7 +21,7 @@ return [
     |--------------------------------------------------------------------------
     |
     */
-    'storage' => [
+    'storage'      => [
         'path'              => storage_path('geonames'),
         'postal_codes_dir'  => 'postal_codes',
         'download_provider' => 'wget', // 'curl_php'
@@ -33,11 +33,15 @@ return [
     |--------------------------------------------------------------------------
     |
     */
-    'database' => [
-        'connection' => env('DB_CONNECTION_GEONAMES', env('DB_CONNECTION', 'mysql_geo')),
+    'database'     => [
+        'connection'     => env('GEONAMES_DB_CONNECTION', env('DB_CONNECTION', 'mysql_geo')),
+
+        /** Used only in model */
+        'default_suffix' => env('GEONAMES_DEFAULT_SUFFIX'),
 
         'tables' => [
-            'geonames' => 'geonames',
+            'geonames'    => 'geonames',
+            'postalcodes' => 'geo_postal_codes',
         ],
     ],
 ];

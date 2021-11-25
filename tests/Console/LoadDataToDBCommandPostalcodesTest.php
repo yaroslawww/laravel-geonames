@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\DB;
 use LaraGeoData\Facades\GeoDataImporter;
 use LaraGeoData\Tests\TestCase;
 
-class LoadDataToDBCommandGeonamesTest extends TestCase
+class LoadDataToDBCommandPostalcodesTest extends TestCase
 {
     protected function setUp(): void
     {
@@ -18,7 +18,7 @@ class LoadDataToDBCommandGeonamesTest extends TestCase
     /** @test */
     public function filename_autofound()
     {
-        $this->artisan('geonames:make:migration geonames')
+        $this->artisan('geonames:make:migration postalcodes')
              ->assertExitCode(0);
 
         $this->artisan('migrate:fresh')
@@ -26,27 +26,27 @@ class LoadDataToDBCommandGeonamesTest extends TestCase
 
         GeoDataImporter::storageTruncate();
         $this->expectException(\Exception::class);
-        $this->expectExceptionMessage('File [' . GeoDataImporter::storagePath('allCountries.txt') . '] not found.');
+        $this->expectExceptionMessage('File [' . GeoDataImporter::storagePath('postal_codes/allCountries.txt') . '] not found.');
 
         $this->artisan('geonames:import:file-to-db', [
-            'type' => 'geonames',
-        ]);
+            'type' => 'postalcodes',
+        ])->assertExitCode(0);
     }
 
     /** @test */
     public function filename_autofound_with_suffix()
     {
-        $this->artisan('geonames:make:migration geonames --suffix=foo')
+        $this->artisan('geonames:make:migration postalcodes --suffix=foo')
              ->assertExitCode(0);
 
         $this->artisan('migrate:fresh')
              ->assertExitCode(0);
 
         $this->expectException(\Exception::class);
-        $this->expectExceptionMessage('File [' . GeoDataImporter::storagePath('FOO.txt') . '] not found.');
+        $this->expectExceptionMessage('File [' . GeoDataImporter::storagePath('postal_codes/FOO.txt') . '] not found.');
 
         $this->artisan('geonames:import:file-to-db', [
-            'type'     => 'geonames',
+            'type'     => 'postalcodes',
             '--suffix' => 'foo',
         ]);
     }
@@ -55,49 +55,49 @@ class LoadDataToDBCommandGeonamesTest extends TestCase
     public function import_real_data()
     {
         $this->artisan('geonames:download', [
-            'files'     => [
+            '--postal'     => [
                 'AD.zip',
-                'AI.zip',
+                'AS.zip',
             ],
             '--force'   => true,
             '--extract' => true,
         ])->assertExitCode(0);
 
-        $this->artisan('geonames:make:migration geonames --suffix=ad')
+        $this->artisan('geonames:make:migration postalcodes --suffix=ad')
              ->assertExitCode(0);
 
         $this->artisan('migrate:fresh')
              ->assertExitCode(0);
 
-        $this->assertEquals(0, DB::table('geonames_ad')->count());
+        $this->assertEquals(0, DB::table('geo_postal_codes_ad')->count());
 
         $this->artisan('geonames:import:file-to-db', [
-            'type'     => 'geonames',
+            'type'     => 'postalcodes',
             '--suffix' => 'ad',
         ])->assertExitCode(0);
 
-        $count = DB::table('geonames_ad')->count();
-        $this->assertTrue($count > 500);
+        $count = DB::table('geo_postal_codes_ad')->count();
+        $this->assertTrue($count == 7);
 
         $this->artisan('geonames:import:file-to-db', [
-            'type'     => 'geonames',
-            'file'     => GeoDataImporter::storagePath('AI.txt'),
+            'type'     => 'postalcodes',
+            'file'     => GeoDataImporter::storagePath('postal_codes/AS.txt'),
             '--suffix' => 'ad',
         ])->assertExitCode(0);
 
-        $newCount = DB::table('geonames_ad')->count();
-        $this->assertTrue($newCount > $count);
+        $newCount = DB::table('geo_postal_codes_ad')->count();
+        $this->assertTrue($newCount == ($count + 1));
 
         $aiCount = $newCount - $count;
-        $this->assertTrue($aiCount > 100);
+        $this->assertTrue($aiCount == 1);
 
         $this->artisan('geonames:import:file-to-db', [
-            'type'       => 'geonames',
-            'file'       => GeoDataImporter::storagePath('AI.txt'),
+            'type'       => 'postalcodes',
+            'file'       => GeoDataImporter::storagePath('postal_codes/AS.txt'),
             '--suffix'   => 'ad',
             '--truncate' => true,
         ])->assertExitCode(0);
 
-        $this->assertEquals($aiCount, DB::table('geonames_ad')->count());
+        $this->assertEquals($aiCount, DB::table('geo_postal_codes_ad')->count());
     }
 }

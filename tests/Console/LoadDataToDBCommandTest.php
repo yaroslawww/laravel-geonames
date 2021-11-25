@@ -17,7 +17,7 @@ class LoadDataToDBCommandTest extends TestCase
     public function error_if_type_not_exists()
     {
         $this->expectException(\Exception::class);
-        $this->expectExceptionMessage('Import type [geodata] not supported.');
+        $this->expectExceptionMessage('Class for type [geodata] not found.');
 
         $this->artisan('geonames:import:file-to-db', [
             'type' => 'geodata',

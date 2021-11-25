@@ -4,13 +4,12 @@ namespace LaraGeoData\Console\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Str;
-use LaraGeoData\Facades\GeoDataImporter;
 
 class LoadDataToDBCommand extends Command
 {
+    use HasTablesClassesMap;
+
     /**
      * The name and signature of the console command.
      *
@@ -37,8 +36,6 @@ class LoadDataToDBCommand extends Command
      */
     protected Filesystem $files;
 
-    protected string $character = 'utf8mb4';
-
     /**
      * Create a new command instance.
      *
@@ -55,113 +52,11 @@ class LoadDataToDBCommand extends Command
 
     public function handle()
     {
-        $type       = (string) $this->argument('type');
-        $methodName = 'import' . Str::ucfirst(Str::camel($type)) . 'Data';
-        if (!method_exists($this, $methodName)) {
-            throw new \Exception("Import type [{$type}] not supported.");
-        }
+        $tableClassName = $this->getTableClassNameByType($this->argument('type'));
 
-        return $this->{$methodName}();
-    }
-
-    /**
-     * Process import for geonames.
-     *
-     * @return int
-     * @throws \Exception
-     */
-    protected function importGeonamesData(): int
-    {
-        $tableName = $this->getTableName('geonames');
-        $filePath  = $this->getFilePath('geonames');
-
-        if ($this->option('truncate')) {
-            DB::table($tableName)->truncate();
-        }
-        DB::connection(config('geonames.database.connection'))->statement(
-            "LOAD DATA LOCAL INFILE '{$filePath}'
-        INTO TABLE `{$tableName}`
-        CHARACTER SET  '{$this->character()}'
-        (geoname_id,
-        name,
-        ascii_name,
-        alternate_names,
-        lat,
-        lng,
-        fclass,
-        fcode,
-        country,
-        cc2,
-        admin1,
-        admin2,
-        admin3,
-        admin4,
-        population,
-        elevation,
-        gtopo30,
-        timezone,
-        moddate,
-        @status,
-        @created_at,
-        @updated_at)
-        SET status=2,created_at=NOW(),updated_at=NOW()"
-        );
+        (new $tableClassName($this->files))->loadData($this->argument('file'), $this->getSuffix(), (bool) $this->option('truncate'));
 
         return 0;
-    }
-
-    /**
-     * Find table name.
-     *
-     * @param string $type
-     *
-     * @return string
-     * @throws \Exception
-     */
-    protected function getTableName(string $type): string
-    {
-        $suffix = $this->getSuffix();
-
-        $tableName = config("geonames.database.tables.{$type}");
-
-        if (!$tableName) {
-            throw new \Exception("Table name not found for type [{$type}]");
-        }
-
-        if ($suffix) {
-            $tableName = "{$tableName}_{$suffix}";
-        }
-
-        if (!Schema::connection(config('geonames.database.connection'))->hasTable($tableName)) {
-            throw new \Exception("Table [{$tableName}] not found. Maybe you need run migrations.");
-        }
-
-        return $tableName;
-    }
-
-    /**
-     * Find file path.
-     *
-     * @param string $type
-     *
-     * @return string
-     * @throws \Exception
-     */
-    protected function getFilePath(string $type): string
-    {
-        $filePath = (string) $this->argument('file');
-
-        if (!$filePath) {
-            $filePath = match ($type) {
-                'geonames' => $this->getGeonamesDefaultFilePath()
-            };
-        }
-
-        if (!$filePath || !$this->files->exists($filePath)) {
-            throw new \Exception("File [{$filePath}] not found.");
-        }
-
-        return $filePath;
     }
 
 
@@ -178,29 +73,5 @@ class LoadDataToDBCommand extends Command
         }
 
         return $suffix;
-    }
-
-    /**
-     * Get default file path.
-     *
-     * @return string
-     */
-    protected function getGeonamesDefaultFilePath(): string
-    {
-        $suffix = $this->getSuffix();
-
-        if (!$suffix) {
-            return GeoDataImporter::storagePath('allCountries.txt');
-        }
-
-        return GeoDataImporter::storagePath(Str::upper($suffix) . '.txt');
-    }
-
-    /**
-     * @return string
-     */
-    protected function character(): string
-    {
-        return $this->character;
     }
 }
