@@ -11,6 +11,9 @@ class Geoname extends Model
     protected $primaryKey = 'geoname_id';
     public $incrementing  = false;
 
+    /**
+     * @inheritDoc
+     */
     public function getTableNameRoot(): string
     {
         return config('geonames.database.tables.geonames');

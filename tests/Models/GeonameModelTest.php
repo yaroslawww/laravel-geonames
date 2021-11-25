@@ -16,7 +16,7 @@ class GeonameModelTest extends TestCase
         $model = new Geoname();
         $this->assertEquals($model->getTableNameRoot(), $model->getTable());
 
-        $model = Geoname::useSuffix('foo');
+        $model = Geoname::makeUsingSuffix('foo');
         $this->assertEquals($model->getTableNameRoot() . '_foo', $model->getTable());
 
         Config::set('geonames.database.default_suffix', 'bar');
@@ -42,12 +42,12 @@ class GeonameModelTest extends TestCase
             '--suffix' => 'ae',
         ]);
 
-        $model = Geoname::useSuffix('ae');
+        $model = Geoname::makeUsingSuffix('ae');
 
         /** @var Builder $query */
         $query = $model->newQuery()->nearestInMiles(24.76778, 56.16306, 0)->orderByNearest();
         $this->assertEquals(1, $query->count());
         $this->assertEquals('Wad Gharr', $query->first()->ascii_name);
-        $this->assertEquals(0, $query->first()->distance);
+        $this->assertEquals(0, round($query->first()->distance, 2));
     }
 }

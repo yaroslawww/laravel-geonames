@@ -4,11 +4,10 @@ namespace LaraGeoData\Console\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
-use Illuminate\Support\Str;
 
 class LoadDataToDBCommand extends Command
 {
-    use HasTablesClassesMap;
+    use HasTablesClassesMap, HasSuffixOption;
 
     /**
      * The name and signature of the console command.
@@ -52,26 +51,13 @@ class LoadDataToDBCommand extends Command
 
     public function handle()
     {
-        $tableClassName = $this->getTableClassNameByType($this->argument('type'));
-
-        (new $tableClassName($this->files))->loadData($this->argument('file'), $this->getSuffix(), (bool) $this->option('truncate'));
+        $this->makeTableObjectNameByType($this->argument('type'), $this->files)
+             ->loadData(
+                 $this->argument('file'),
+                 $this->getSuffix(),
+                 (bool) $this->option('truncate')
+             );
 
         return 0;
-    }
-
-
-    /**
-     * Get formatted suffix.
-     *
-     * @return string|null
-     */
-    protected function getSuffix(): ?string
-    {
-        $suffix = $this->option('suffix');
-        if ($suffix) {
-            $suffix = Str::snake($suffix);
-        }
-
-        return $suffix;
     }
 }

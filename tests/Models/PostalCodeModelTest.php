@@ -16,7 +16,7 @@ class PostalCodeModelTest extends TestCase
         $model = new PostalCode();
         $this->assertEquals($model->getTableNameRoot(), $model->getTable());
 
-        $model = PostalCode::useSuffix('foo');
+        $model = PostalCode::makeUsingSuffix('foo');
         $this->assertEquals($model->getTableNameRoot() . '_foo', $model->getTable());
 
         Config::set('geonames.database.default_suffix', 'bar');
@@ -42,12 +42,12 @@ class PostalCodeModelTest extends TestCase
             '--suffix' => 'ar',
         ]);
 
-        $model = PostalCode::useSuffix('ar');
+        $model = PostalCode::makeUsingSuffix('ar');
 
         /** @var Builder $query */
-        $query = $model->newQuery()->nearestInMiles(-29.9333, -58.2667, 0.1)->orderByNearest();
+        $query = $model->newQuery()->nearestInKilometers(-29.9333, -58.2667, 0.1)->orderByNearest();
         $this->assertEquals(1, $query->count());
         $this->assertEquals('PAGO LARGO', $query->first()->place_name);
-        $this->assertEquals(0, $query->first()->distance);
+        $this->assertEquals(0, round($query->first()->distance, 2));
     }
 }

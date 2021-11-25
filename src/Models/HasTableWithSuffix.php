@@ -4,9 +4,17 @@ namespace LaraGeoData\Models;
 
 trait HasTableWithSuffix
 {
+    /**
+     * Get base table name (root name, without suffix).
+     *
+     * @return string
+     */
     abstract public function getTableNameRoot(): string;
 
-    public function getTable()
+    /**
+     * @inheritDoc
+     */
+    public function getTable(): string
     {
         if ($this->table) {
             return $this->table;
@@ -19,7 +27,13 @@ trait HasTableWithSuffix
         return $tableName;
     }
 
-    public static function useSuffix(?string $suffix = null): static
+    /**
+     * Initialise model with suffixed table name.
+     *
+     * @param string|null $suffix
+     * @return static
+     */
+    public static function makeUsingSuffix(?string $suffix = null): static
     {
         $instance  = new static();
         $tableName = $instance->getTableNameRoot();

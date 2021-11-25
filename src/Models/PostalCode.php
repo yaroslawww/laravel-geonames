@@ -11,6 +11,9 @@ class PostalCode extends Model
     protected $primaryKey = 'country_code';
     public $incrementing  = false;
 
+    /**
+     * @inheritDoc
+     */
     public function getTableNameRoot(): string
     {
         return config('geonames.database.tables.postalcodes');
