@@ -48,5 +48,6 @@ class PostalCodeModelTest extends TestCase
         $query = $model->newQuery()->nearestInMiles(-29.9333, -58.2667, 0.1)->orderByNearest();
         $this->assertEquals(1, $query->count());
         $this->assertEquals('PAGO LARGO', $query->first()->place_name);
+        $this->assertEquals(0, $query->first()->distance);
     }
 }

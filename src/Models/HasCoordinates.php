@@ -61,4 +61,13 @@ trait HasCoordinates
     {
         return $query->orderBy($this->distanceColName(), $direction);
     }
+
+    public function getDistanceAttribute(): float
+    {
+        if (array_key_exists($this->distanceColName(), $this->attributes)) {
+            return (float) $this->attributes[$this->distanceColName()];
+        }
+
+        return 0;
+    }
 }

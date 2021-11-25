@@ -48,5 +48,6 @@ class GeonameModelTest extends TestCase
         $query = $model->newQuery()->nearestInMiles(24.76778, 56.16306, 0)->orderByNearest();
         $this->assertEquals(1, $query->count());
         $this->assertEquals('Wad Gharr', $query->first()->ascii_name);
+        $this->assertEquals(0, $query->first()->distance);
     }
 }
