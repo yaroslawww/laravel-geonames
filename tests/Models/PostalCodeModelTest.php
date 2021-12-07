@@ -22,9 +22,22 @@ class PostalCodeModelTest extends TestCase
         Config::set('geonames.database.default_suffix', 'bar');
         $model = new PostalCode();
         $this->assertEquals($model->getTableNameRoot() . '_bar', $model->getTable());
+
         Config::set('geonames.database.default_suffix', null);
         $model = new PostalCode();
         $this->assertEquals($model->getTableNameRoot(), $model->getTable());
+
+        $model = new PostalCode([
+            'lat'         => 12,
+            'lng'         => 13,
+            'distance'    => 14,
+            'postal_code' => 'Test postal name',
+        ]);
+
+        $this->assertEquals(12, $model->getLatitude());
+        $this->assertEquals(13, $model->getLongitude());
+        $this->assertEquals(14, $model->getDistance());
+        $this->assertEquals('Test postal name', $model->locationName());
     }
 
     /** @test */

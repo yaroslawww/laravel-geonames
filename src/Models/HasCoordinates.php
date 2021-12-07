@@ -8,11 +8,8 @@ use LaraGeoData\Contracts\ModelWithCoordinates;
 
 trait HasCoordinates
 {
-
     /**
      * Table column name for latitude.
-     *
-     * @return string
      */
     public function latitudeColName(): string
     {
@@ -21,8 +18,6 @@ trait HasCoordinates
 
     /**
      * Table column name for longitude.
-     *
-     * @return string
      */
     public function longitudeColName(): string
     {
@@ -31,8 +26,6 @@ trait HasCoordinates
 
     /**
      * Filed name for distance. This field will be created only id use "nearest" scope.
-     *
-     * @return string
      */
     public function distanceColName(): string
     {
@@ -42,13 +35,6 @@ trait HasCoordinates
     /**
      * Haversine formula (from Google solution example).
      * By default use radius in kilometers.
-     *
-     * @param Builder $query
-     * @param float   $lat
-     * @param float   $lng
-     * @param float   $radius
-     * @param int     $coef
-     * @return Builder
      */
     public function scopeNearest(Builder $query, float $lat, float $lng, float $radius, int $coef = ModelWithCoordinates::HAVERSINE_COEF_KILOMETERS)
     {
@@ -82,10 +68,6 @@ trait HasCoordinates
 
     /**
      * Order query results by distance.
-     *
-     * @param Builder $query
-     * @param string  $direction
-     * @return Builder
      */
     public function scopeOrderByNearest(Builder $query, string $direction = 'asc')
     {
@@ -94,8 +76,6 @@ trait HasCoordinates
 
     /**
      * Field has value only is use "nearest" scope.
-     *
-     * @return float
      */
     public function getDistanceAttribute(): float
     {
@@ -104,5 +84,20 @@ trait HasCoordinates
         }
 
         return 0;
+    }
+
+    public function getLatitude(): ?float
+    {
+        return $this->{$this->latitudeColName()};
+    }
+
+    public function getLongitude(): ?float
+    {
+        return $this->{$this->longitudeColName()};
+    }
+
+    public function getDistance(): float
+    {
+        return $this->distance;
     }
 }

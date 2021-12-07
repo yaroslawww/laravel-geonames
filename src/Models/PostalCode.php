@@ -6,10 +6,14 @@ use Illuminate\Database\Eloquent\Model;
 
 class PostalCode extends Model
 {
-    use HasTableWithSuffix, HasCoordinates;
+    use HasTableWithSuffix, HasCoordinates, HasLocationName;
 
     protected $primaryKey = 'country_code';
     public $incrementing  = false;
+
+    protected $guarded = [];
+
+    protected string $locationNameColumn = 'postal_code';
 
     /**
      * @inheritDoc

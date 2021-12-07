@@ -8,9 +8,8 @@ use LaraGeoData\Database\Tables\Postalcodes;
 
 trait HasTablesClassesMap
 {
-
     /**
-     * map describe command type and table class.
+     * Map describe command type and table class.
      *
      * @var array
      */
@@ -43,6 +42,7 @@ trait HasTablesClassesMap
     {
         $tableClassName = $this->getTableClassNameByType($type);
 
+        /** @psalm-suppress UndefinedClass */
         return new $tableClassName(...$attributes);
     }
 }

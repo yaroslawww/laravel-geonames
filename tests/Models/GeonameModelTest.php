@@ -22,9 +22,22 @@ class GeonameModelTest extends TestCase
         Config::set('geonames.database.default_suffix', 'bar');
         $model = new Geoname();
         $this->assertEquals($model->getTableNameRoot() . '_bar', $model->getTable());
+
         Config::set('geonames.database.default_suffix', null);
         $model = new Geoname();
         $this->assertEquals($model->getTableNameRoot(), $model->getTable());
+
+        $model = new Geoname([
+            'lat'        => 12,
+            'lng'        => 13,
+            'distance'   => 14,
+            'ascii_name' => 'Test name',
+        ]);
+
+        $this->assertEquals(12, $model->getLatitude());
+        $this->assertEquals(13, $model->getLongitude());
+        $this->assertEquals(14, $model->getDistance());
+        $this->assertEquals('Test name', $model->locationName());
     }
 
     /** @test */
