@@ -8,7 +8,7 @@ class PostalCode extends Model
 {
     use HasTableWithSuffix, HasCoordinates, HasLocationName;
 
-    protected $primaryKey = 'country_code';
+    protected $primaryKey = 'postal_code';
     public $incrementing  = false;
 
     protected $guarded = [];
