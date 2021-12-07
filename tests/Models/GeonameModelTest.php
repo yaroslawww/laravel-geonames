@@ -62,5 +62,14 @@ class GeonameModelTest extends TestCase
         $this->assertEquals(1, $query->count());
         $this->assertEquals('Wad Gharr', $query->first()->ascii_name);
         $this->assertEquals(0, round($query->first()->distance, 2));
+
+        $this->assertEquals(1, $model->newQuery()->nameContain('l Bura')->count());
+        $this->assertEquals(4, $model->newQuery()->nameContain('Bura')->count());
+        $this->assertEquals(1, $model->newQuery()->nameStartsWith('Bura')->count());
+        $this->assertEquals(1, $model->newQuery()->nameEndsWith('Bura')->count());
+        $this->assertEquals(
+            'Al Buraymi|Burayr|Tawi Burayrat|Wadi Buraq',
+            $model->newQuery()->nameContain('Bura')->orderByName()->get()->pluck($model->locationNameColumn())->implode('|')
+        );
     }
 }
