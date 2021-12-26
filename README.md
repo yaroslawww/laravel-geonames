@@ -1,6 +1,8 @@
 # Laravel geonames.
 
 ![Packagist License](https://img.shields.io/packagist/l/yaroslawww/laravel-geonames?color=%234dc71f)
+[![Packagist Version](https://img.shields.io/packagist/v/yaroslawww/laravel-geonames)](https://packagist.org/packages/yaroslawww/laravel-geonames)
+[![Total Downloads](https://img.shields.io/packagist/dt/yaroslawww/laravel-geonames)](https://packagist.org/packages/yaroslawww/laravel-geonames)
 [![Build Status](https://scrutinizer-ci.com/g/yaroslawww/laravel-geonames/badges/build.png?b=master)](https://scrutinizer-ci.com/g/yaroslawww/laravel-geonames/build-status/master)
 [![Code Coverage](https://scrutinizer-ci.com/g/yaroslawww/laravel-geonames/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/yaroslawww/laravel-geonames/?branch=master)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/yaroslawww/laravel-geonames/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/yaroslawww/laravel-geonames/?branch=master)
