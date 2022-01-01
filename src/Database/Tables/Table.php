@@ -22,7 +22,7 @@ abstract class Table implements GeoTable
      *
      * @var string
      */
-    protected string $migrationTemplatesPath = __DIR__ . '/../../../database/migrations/';
+    protected string $migrationTemplatesPath = __DIR__ . '/../../../database/migrations-stubs/';
 
     /**
      * Data file path prefix.
