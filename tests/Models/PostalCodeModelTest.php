@@ -9,7 +9,6 @@ use LaraGeoData\Tests\TestCase;
 
 class PostalCodeModelTest extends TestCase
 {
-
     /** @test */
     public function dynamic_table_name()
     {

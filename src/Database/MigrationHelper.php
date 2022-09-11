@@ -6,7 +6,6 @@ use Illuminate\Database\Schema\Blueprint;
 
 class MigrationHelper
 {
-
     /**
      * @param Blueprint $table
      */

@@ -13,7 +13,6 @@ use ZipArchive;
  */
 class FilesystemStorage
 {
-
     /**
      * Provider.
      *

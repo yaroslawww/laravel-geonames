@@ -7,7 +7,6 @@ use LaraGeoData\Storage\FilesystemStorage;
 
 class GeoDataImporterTest extends TestCase
 {
-
     /** @test */
     public function exception_if_not_valid_method()
     {

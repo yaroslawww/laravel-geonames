@@ -4,7 +4,6 @@ namespace LaraGeoData\Database\Tables;
 
 interface GeoTable
 {
-
     /**
      * Create migration from template.
      *

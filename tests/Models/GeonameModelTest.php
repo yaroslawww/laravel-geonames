@@ -9,7 +9,6 @@ use LaraGeoData\Tests\TestCase;
 
 class GeonameModelTest extends TestCase
 {
-
     /** @test */
     public function dynamic_table_name()
     {

@@ -23,7 +23,7 @@
         </report>
     </coverage>
     <testsuites>
-        <testsuite name="laravel-geonames Test Suite">
+        <testsuite name="Test Suite">
             <directory>tests</directory>
         </testsuite>
     </testsuites>
