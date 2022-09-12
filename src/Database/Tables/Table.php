@@ -39,7 +39,7 @@ abstract class Table implements GeoTable
     /**
      * @inheritDoc
      */
-    public function makeMigration(?string $suffix = null): string
+    public function makeMigration(?string $suffix = null, array $replaces = []): string
     {
         $templateNameRoot = $this->getTemplateNameRoot();
         $template         = $this->migrationTemplatesPath . $templateNameRoot . '.php.stub';
@@ -48,8 +48,12 @@ abstract class Table implements GeoTable
         $this->files->copy($template, $saveTo);
 
         $text = $this->files->get($saveTo);
-        $text = str_replace('/** class_suffix **/', $suffix ? Str::ucfirst(Str::camel($suffix)) : '', $text);
         $text = str_replace('/** table_suffix **/', $suffix ? " . '_{$suffix}'" : '', $text);
+        $text = str_replace('/** suffix **/', $suffix, $text);
+        foreach ($replaces as $key => $value) {
+            $text = str_replace("/** {$key} **/", $value, $text);
+        }
+
         $this->files->put($saveTo, $text);
 
         return $saveTo;

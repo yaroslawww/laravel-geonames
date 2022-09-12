@@ -69,14 +69,14 @@ class LoadDataToDBCommandGeonamesTest extends TestCase
         $this->artisan('migrate:fresh')
              ->assertExitCode(0);
 
-        $this->assertEquals(0, DB::table('geonames_ad')->count());
+        $this->assertEquals(0, DB::table('gn_geonames_ad')->count());
 
         $this->artisan('geonames:import:file-to-db', [
             'type'     => 'geonames',
             '--suffix' => 'ad',
         ])->assertExitCode(0);
 
-        $count = DB::table('geonames_ad')->count();
+        $count = DB::table('gn_geonames_ad')->count();
         $this->assertTrue($count > 500);
 
         $this->artisan('geonames:import:file-to-db', [
@@ -85,7 +85,7 @@ class LoadDataToDBCommandGeonamesTest extends TestCase
             '--suffix' => 'ad',
         ])->assertExitCode(0);
 
-        $newCount = DB::table('geonames_ad')->count();
+        $newCount = DB::table('gn_geonames_ad')->count();
         $this->assertTrue($newCount > $count);
 
         $aiCount = $newCount - $count;
@@ -98,6 +98,6 @@ class LoadDataToDBCommandGeonamesTest extends TestCase
             '--truncate' => true,
         ])->assertExitCode(0);
 
-        $this->assertEquals($aiCount, DB::table('geonames_ad')->count());
+        $this->assertEquals($aiCount, DB::table('gn_geonames_ad')->count());
     }
 }

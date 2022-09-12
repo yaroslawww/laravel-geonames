@@ -36,14 +36,16 @@ return [
     'database' => [
         'connection' => env('GEONAMES_DB_CONNECTION', env('DB_CONNECTION', 'mysql_geo')),
 
-        /** Used only in model */
+        /**
+         * Used only in model.
+         * Usefull, in case if you use only one country in your application.
+         */
         'default_suffix' => env('GEONAMES_DEFAULT_SUFFIX'),
 
         'tables' => [
-            'geo_feature_classes' => 'geo_feature_classes',
-            'geo_feature_codes'   => 'geo_feature_codes',
-            'geonames'            => 'geonames',
-            'postalcodes'         => 'geo_postal_codes',
+            'geonames'            => 'gn_geonames',
+            'postalcodes'         => 'gn_postal_codes',
+            'admin_areas'         => 'gn_admin{level}_areas_view',
         ],
     ],
 ];

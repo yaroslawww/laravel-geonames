@@ -62,6 +62,9 @@ php artisan geonames:make:migration geonames
 php artisan geonames:make:migration geonames --suffix=gb
 
 php artisan geonames:make:migration postalcodes --suffix=gb
+php artisan geonames:make:migration admin_areas_view --suffix=gb --replaces=level:1
+php artisan geonames:make:migration admin_areas_view --suffix=gb --replaces=level:2
+php artisan geonames:make:migration admin_areas_view --suffix=gb --replaces=level:3
 ```
 
 #### Import dump data to tables

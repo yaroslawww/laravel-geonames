@@ -1,0 +1,25 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration {
+
+    public function up() {
+        (new \LaraGeoData\Database\Views\AdminAreaViewCreator())
+            ->setLevel((int) '/** level **/')
+            ->setSuffix(\Illuminate\Support\Str::replace('_', '', '/** suffix **/'))
+            ->up();
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down() {
+        (new \LaraGeoData\Database\Views\AdminAreaViewCreator())
+            ->setLevel((int) '/** level **/')
+            ->setSuffix(\Illuminate\Support\Str::replace('_', '', '/** suffix **/'))
+            ->down();
+    }
+};

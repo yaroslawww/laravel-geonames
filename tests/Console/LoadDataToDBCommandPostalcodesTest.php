@@ -69,14 +69,14 @@ class LoadDataToDBCommandPostalcodesTest extends TestCase
         $this->artisan('migrate:fresh')
              ->assertExitCode(0);
 
-        $this->assertEquals(0, DB::table('geo_postal_codes_ad')->count());
+        $this->assertEquals(0, DB::table('gn_postal_codes_ad')->count());
 
         $this->artisan('geonames:import:file-to-db', [
             'type'     => 'postalcodes',
             '--suffix' => 'ad',
         ])->assertExitCode(0);
 
-        $count = DB::table('geo_postal_codes_ad')->count();
+        $count = DB::table('gn_postal_codes_ad')->count();
         $this->assertTrue($count == 7);
 
         $this->artisan('geonames:import:file-to-db', [
@@ -85,7 +85,7 @@ class LoadDataToDBCommandPostalcodesTest extends TestCase
             '--suffix' => 'ad',
         ])->assertExitCode(0);
 
-        $newCount = DB::table('geo_postal_codes_ad')->count();
+        $newCount = DB::table('gn_postal_codes_ad')->count();
         $this->assertTrue($newCount == ($count + 1));
 
         $aiCount = $newCount - $count;
@@ -98,6 +98,6 @@ class LoadDataToDBCommandPostalcodesTest extends TestCase
             '--truncate' => true,
         ])->assertExitCode(0);
 
-        $this->assertEquals($aiCount, DB::table('geo_postal_codes_ad')->count());
+        $this->assertEquals($aiCount, DB::table('gn_postal_codes_ad')->count());
     }
 }

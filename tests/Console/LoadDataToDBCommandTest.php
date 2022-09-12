@@ -41,7 +41,7 @@ class LoadDataToDBCommandTest extends TestCase
     public function error_if_table_not_exists()
     {
         $this->expectException(\Exception::class);
-        $this->expectExceptionMessage('Table [geonames_not_table] not found. Maybe you need run migrations.');
+        $this->expectExceptionMessage('Table [gn_geonames_not_table] not found. Maybe you need run migrations.');
 
         $this->artisan('geonames:import:file-to-db', [
             'type'     => 'geonames',

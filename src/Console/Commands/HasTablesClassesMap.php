@@ -2,6 +2,7 @@
 
 namespace LaraGeoData\Console\Commands;
 
+use LaraGeoData\Database\Tables\AdminAreasView;
 use LaraGeoData\Database\Tables\Geonames;
 use LaraGeoData\Database\Tables\GeoTable;
 use LaraGeoData\Database\Tables\Postalcodes;
@@ -14,8 +15,9 @@ trait HasTablesClassesMap
      * @var array
      */
     protected array $classesMap = [
-        'geonames'    => Geonames::class,
-        'postalcodes' => Postalcodes::class,
+        'geonames'         => Geonames::class,
+        'postalcodes'      => Postalcodes::class,
+        'admin_areas_view' => AdminAreasView::class,
     ];
 
     /**

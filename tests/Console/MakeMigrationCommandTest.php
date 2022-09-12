@@ -56,7 +56,6 @@ class MakeMigrationCommandTest extends TestCase
         /** @var SplFileInfo $file */
         $file    = $iterator->current();
         $content = file_get_contents($file->getRealPath());
-        $this->assertStringContainsString('CreateGeonamesTableBlabla', $content);
         $this->assertStringContainsString(". '_blabla'", $content);
     }
 }

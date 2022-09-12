@@ -38,15 +38,15 @@ class TablesChecksTest extends TestCase
             return null;
         })->filter()->unique()->toArray();
 
-        $this->assertTrue(in_array('geonames_wf', $tables));
+        $this->assertTrue(in_array('gn_geonames_wf', $tables));
 
-        DB::table('geonames_wf')->insert([
+        DB::table('gn_geonames_wf')->insert([
             'geoname_id' => 23,
         ]);
-        DB::table('geonames_wf')->insert([
+        DB::table('gn_geonames_wf')->insert([
             'geoname_id' => 63,
         ]);
 
-        $this->assertEquals(2, DB::table('geonames_wf')->count());
+        $this->assertEquals(2, DB::table('gn_geonames_wf')->count());
     }
 }
