@@ -9,7 +9,7 @@ return new class extends Migration {
     public function up() {
         (new \LaraGeoData\Database\Views\AdminAreaViewCreator())
             ->setLevel((int) '/** level **/')
-            ->setSuffix(\Illuminate\Support\Str::replace('_', '', '/** suffix **/'))
+            ->setSuffix('/** suffix **/')
             ->up();
     }
 
@@ -19,7 +19,7 @@ return new class extends Migration {
     public function down() {
         (new \LaraGeoData\Database\Views\AdminAreaViewCreator())
             ->setLevel((int) '/** level **/')
-            ->setSuffix(\Illuminate\Support\Str::replace('_', '', '/** suffix **/'))
+            ->setSuffix('/** suffix **/')
             ->down();
     }
 };
